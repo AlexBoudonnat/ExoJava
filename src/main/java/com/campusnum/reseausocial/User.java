@@ -5,8 +5,8 @@ package com.campusnum.reseausocial;
  *
  */
 public class User {
-	private String prenom, nom, ville, age;
-	private int userId, id = 0;
+	protected String prenom, nom, ville, age, regexNum = "^\\d{2}$", regexAlpha = "^\\S[a-zA-Z]*$";
+	protected int userId, id = 0;
 	/**
 	 * Constructeur sans paramètres
 	 */
@@ -15,20 +15,20 @@ public class User {
 		this.setPrenom("unknown");
 		this.setVille("unknown");
 		this.setAge("unknown");
-		this.setUserId();
+		//this.setUserId();
 	}
 	/**
 	 * 
 	 * @param pPrenom
 	 * @param pNom
 	 */
-	public User(String pPrenom, String pNom) {
-		this.setNom(pNom);
-		this.setPrenom(pPrenom);
-		this.setVille("unknown");
-		this.setAge("unknown");
-		this.setUserId();
-	}
+//	public User(String pPrenom, String pNom) {
+//		this.setNom(pNom);
+//		this.setPrenom(pPrenom);
+//		this.setVille("unknown");
+//		this.setAge("unknown");
+//		this.setUserId();
+//	}
 	/**
 	 * 
 	 * @param pPrenom
@@ -36,12 +36,24 @@ public class User {
 	 * @param pVille
 	 * @param pAge
 	 */
-	public User(String pPrenom, String pNom, String pVille, String pAge) {
-		this.setNom(pNom);
-		this.setPrenom(pPrenom);
-		this.setVille(pVille);
-		this.setAge(pAge);
-		this.setUserId();
+	public User(String pPrenom, String pNom, String pVille, String pAge) throws NomException, PrenomException, VilleException, AgeException {
+		if (!pNom.matches(regexAlpha)) {
+			throw new NomException();
+		} else if (!pPrenom.matches(regexAlpha)) {
+			throw new PrenomException();
+		} else if (!pVille.matches(regexAlpha)) {
+			throw new VilleException();
+		} else if (!pAge.matches(regexNum)) {
+			throw new AgeException();
+		}
+		else {
+			this.setNom(pNom);
+			this.setPrenom(pPrenom);
+			this.setVille(pVille);
+			this.setAge(pAge);
+			//this.setUserId();
+			
+		}
 	}
 /**
  * 
@@ -69,7 +81,8 @@ public class User {
  * @param nom
  */
 	public void setNom(String nom) {
-		this.nom = nom;
+			this.nom = nom;
+
 	}
 /**
  * 
@@ -102,9 +115,23 @@ public class User {
 /**
  * 
  */
-	private void setUserId() {
+	protected void setUserId() {
 		this.userId = id;
 		id++;
+	}
+	
+	/**
+	 * @param msgId
+	 */
+	public void deleteMsg(int msgId) {
+		//permet de supprimer un msg qui a pour id msgId
+	}
+	
+	/**
+	 * @return
+	 */
+	public int getModeratingLevel() {
+		return 0;
 	}
 	
 }
